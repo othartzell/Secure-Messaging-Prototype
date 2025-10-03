@@ -16,7 +16,7 @@ class DiffieHellman:
     def __init__(self, parameters=None):
         # Generating g and p for DH
         if parameters is None:
-            parameters = dh.generate_parameters(generator=2, key_size=2048)
+            parameters = dh.generate_parameters(generator=2, key_size=512)
         self.parameters = parameters
 
         # Generating private value a or b and public value g^(a or b) mod p
@@ -27,7 +27,7 @@ class DiffieHellman:
         self.signature = DigitalSignature()
 
     # Serializing DH public value (g^(a or b) mod p) into a byte string for the digital signature
-    def get_public_bytes(self):
+    def serialize_public_value(self):
         return self.public_key.public_bytes(
             encoding=serialization.Encoding.DER,
             format=serialization.PublicFormat.SubjectPublicKeyInfo
@@ -35,7 +35,7 @@ class DiffieHellman:
     
     # Signing g^x mod p using DigitalSignature class
     def sign_public(self):
-        return self.signature.sign_message(self.get_public_bytes())
+        return self.signature.sign_message(self.serialize_public_value())
     
     # Verifying digital signature of senders DH public value using senders RSA public key
     def verify_other_public(self, other_bytes: bytes, signature: bytes, other_rsa_public):

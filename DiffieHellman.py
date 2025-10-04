@@ -12,6 +12,8 @@ from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives import serialization
 from DigitalSignature import DigitalSignature
 
+# Task 2: Diffie-Hellman Exchange - Develop a funcion (or functions) to implement the steps involved in the key exchange
+
 class DiffieHellman:
     # Generating private value a or b and public value g^a or b mod p
     def __init__(self, p=None, g=None):
@@ -33,7 +35,9 @@ class DiffieHellman:
         # Generate private and public keys
         self.private_key = self.parameters.generate_private_key()
         self.public_key = self.private_key.public_key()
-        
+
+        self.signature = DigitalSignature()
+
     def get_params(self):
         return self.p, self.g
 
@@ -41,7 +45,26 @@ class DiffieHellman:
     def get_public_value(self):
         return self.public_key.public_numbers().y
     
-    # Computing the shared secret using the others public key
+    # Serializing DH public value (g^(a or b) mod p) into a byte string for the digital signature
+    def serialize_public_value(self):
+        return self.public_key.public_bytes(
+            encoding=serialization.Encoding.DER,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        )
+    
+    # Deserialize received bytes back into a DH public key object
+    def deserialize_public_value(self, serialized_bytes):
+        return serialization.load_der_public_key(serialized_bytes)
+    
+    # Signing g^x mod p using DigitalSignature class
+    def sign_public(self):
+        return self.signature.sign_message(self.serialize_public_value())
+    
+    # Verifying digital signature of senders DH public value using senders RSA public key
+    def verify_other_public(self, other_bytes: bytes, signature: bytes, other_rsa_public):
+        return self.signature.verify_signature(other_bytes, signature, other_rsa_public)
+    
+        # Computing the shared secret using the others public key
     def compute_shared_secret(self, peer_public_key):
         secret_bytes = self.private_key.exchange(peer_public_key)
         return int.from_bytes(secret_bytes, byteorder='big')

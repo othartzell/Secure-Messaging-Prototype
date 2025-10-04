@@ -1,10 +1,10 @@
 # Owen Hartzell 801188721 ohartzel@chartlotte.edu
 # ITIS 6200 Project 1: Secure Messaging Prototype
 
-# Testing the functionality of the Diffie Hellman class
+# Testing the functionality of the Diffie Hellman class in a single terminal
 
 # Imports
-from DiffieHellman import DiffieHellman
+from DiffieHellmanOld import DiffieHellman
 from cryptography.hazmat.primitives import serialization
 
 # Create Alice and Bob with same DH parameters so p and g are shared

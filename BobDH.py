@@ -34,8 +34,7 @@ g = int(g_str.strip())
 # Create Bob
 bob = DiffieHellman(p, g)
 bob_pub = bob.get_public_value()
-print("\n=== Bob's Public Value g^b mod p ===")
-print(f"\n{bob_pub}")
+print(f"Bob's public value (g^a mod p): {bob_pub}")
 
 # Sign and serialize DH public value
 bob_serialized = bob.serialize_public_value()

@@ -13,7 +13,7 @@ alice = DiffieHellman()
 bob = DiffieHellman(parameters=alice.parameters)
 
 # Printing p and g
-print("\nPublic Values:")
+print("\n=== Public Values ===")
 p = alice.parameters.parameter_numbers().p
 g = alice.parameters.parameter_numbers().g
 print(f"p: {p}\ng: {g}")
@@ -22,28 +22,30 @@ print(f"p: {p}\ng: {g}")
 alice_g_a = alice.public_key.public_numbers().y
 bob_g_b   = bob.public_key.public_numbers().y
 
-print(f"\nAlice’s g^a mod p: {alice_g_a}")
-print(f"Bob’s g^b mod p:   {bob_g_b}")
+print("\n=== Alice’s g^a mod p ===")
+print(f"{alice_g_a}")
+print("\n=== Bob’s g^b mod p ===")
+print(f"{bob_g_b}")
 
 # Signing the DH public value
 sign_a = alice.sign_public()
 sign_b = bob.sign_public()
 
-print(f"\nAlice’s Signature: {sign_a.hex()}")
-print(f"Bob’s Signature: {sign_b.hex()}")
-
 # Verifying the signature on the DH public value and printing the result 1 or 0
 alice_verifies = alice.verify_other_public(bob.serialize_public_value(), sign_b, bob.signature.public_key)
 bob_verifies   = bob.verify_other_public(alice.serialize_public_value(), sign_a, alice.signature.public_key)
 
-print("\n--- Verification ---")
-print(f"Alice’s Signature: {base64.b64encode(sign_a).decode('ascii')}")
-print(f"Bob’s Signature: {base64.b64encode(sign_b).decode('ascii')}")
+print("\n=== Alice’s Signature ===")
+print(f"{base64.b64encode(sign_a).decode('ascii')}")
+print("\n=== Bob’s Signature ===")
+print(f"{base64.b64encode(sign_b).decode('ascii')}")
 
 # Computing the shared secret and comparing to see if they match
 alice_shared = alice.shared_secret(bob.public_key)
 bob_shared = bob.shared_secret(alice.public_key)
-
-print(f"\nAlice’s computed shared secret: {int.from_bytes(alice_shared)}")
-print(f"Bob’s computed shared secret: {int.from_bytes(bob_shared)}")
-print("\nChecking if secrets match:", alice_shared == bob_shared)
+print("\n=== Alice’s computed shared secret ===")
+print(f"{int.from_bytes(alice_shared)}")
+print("\n=== Bob’s computed shared secret ")
+print(f"{int.from_bytes(bob_shared)}")
+print("\n=== Checking if secrets match ===")
+print(alice_shared == bob_shared)

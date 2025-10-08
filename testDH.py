@@ -6,6 +6,7 @@
 # Imports
 from DiffieHellmanOld import DiffieHellman
 from cryptography.hazmat.primitives import serialization
+import base64
 
 # Create Alice and Bob with same DH parameters so p and g are shared
 alice = DiffieHellman()
@@ -28,21 +29,21 @@ print(f"Bob’s g^b mod p:   {bob_g_b}")
 sign_a = alice.sign_public()
 sign_b = bob.sign_public()
 
-print(f"\nAlice’s Signature: {sign_a.hex()[:64]}...")
-print(f"Bob’s Signature: {sign_b.hex()[:64]}...")
+print(f"\nAlice’s Signature: {sign_a.hex()}")
+print(f"Bob’s Signature: {sign_b.hex()}")
 
 # Verifying the signature on the DH public value and printing the result 1 or 0
 alice_verifies = alice.verify_other_public(bob.serialize_public_value(), sign_b, bob.signature.public_key)
 bob_verifies   = bob.verify_other_public(alice.serialize_public_value(), sign_a, alice.signature.public_key)
 
 print("\n--- Verification ---")
-print(f"Alice verifies Bob’s: {alice_verifies}")
-print(f"Bob verifies Alice’s: {bob_verifies}")
+print(f"Alice’s Signature: {base64.b64encode(sign_a).decode('ascii')}")
+print(f"Bob’s Signature: {base64.b64encode(sign_b).decode('ascii')}")
 
 # Computing the shared secret and comparing to see if they match
 alice_shared = alice.shared_secret(bob.public_key)
 bob_shared = bob.shared_secret(alice.public_key)
 
-print(f"\nAlice’s computed shared secret: {int.from_bytes(alice_shared, "big")}...")
-print(f"Bob’s computed shared secret: {int.from_bytes(bob_shared, "big")}...")
+print(f"\nAlice’s computed shared secret: {int.from_bytes(alice_shared)}")
+print(f"Bob’s computed shared secret: {int.from_bytes(bob_shared)}")
 print("\nChecking if secrets match:", alice_shared == bob_shared)

@@ -24,8 +24,9 @@ class DiffieHellman:
             self.p = pn.p
             self.g = pn.g
 
-            with open("parameters.txt", "w") as f:
-                f.write(f"{self.p}\n{self.g}\n")
+            # Logic for shared file for p and g
+            # with open("parameters.txt", "w") as f:
+            #     f.write(f"{self.p}\n{self.g}\n")
         else:
             pn = dh.DHParameterNumbers(p, g)
             self.parameters = pn.parameters()
@@ -38,6 +39,7 @@ class DiffieHellman:
 
         self.signature = DigitalSignature()
 
+    # Return p and g
     def get_params(self):
         return self.p, self.g
 
@@ -64,11 +66,12 @@ class DiffieHellman:
     def verify_other_public(self, other_bytes: bytes, signature: bytes, other_rsa_public):
         return self.signature.verify_signature(other_bytes, signature, other_rsa_public)
     
-        # Computing the shared secret using the others public key
+    # Computing the shared secret using the others public key
     def compute_shared_secret(self, peer_public_key):
         secret_bytes = self.private_key.exchange(peer_public_key)
         return int.from_bytes(secret_bytes, byteorder='big')
     
+    # Getting the peer key
     def get_peer_key(self, y):
         pn = self.parameters.parameter_numbers()
         public_numbers = dh.DHPublicNumbers(y, pn)

@@ -24,9 +24,6 @@ class DiffieHellman:
             self.p = pn.p
             self.g = pn.g
 
-            # Logic for shared file for p and g
-            # with open("parameters.txt", "w") as f:
-            #     f.write(f"{self.p}\n{self.g}\n")
         else:
             pn = dh.DHParameterNumbers(p, g)
             self.parameters = pn.parameters()

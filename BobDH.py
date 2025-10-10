@@ -5,22 +5,6 @@
 
 from DiffieHellman import DiffieHellman
 from cryptography.hazmat.primitives import serialization
-import base64
-
-# Getting parameters p and g from a shared file
-# with open("parameters.txt", "r") as f:
-#     lines = f.readlines()
-#     p = int(lines[0].strip())
-#     g = int(lines[1].strip())
-
-# Create Bob
-# bob = DiffieHellman(p, g)
-# bob_pub = bob.get_public_value()
-
-# print("\n=== Bob ===")
-# print(f"p: {p}")
-# print(f"g: {g}")
-# print(f"Bob's public value (g^b mod p): {bob_pub}")
 
 # Getting parameters p and g from console
 print("\n=== Bob ===")
@@ -34,34 +18,30 @@ g = int(g_str.strip())
 # Create Bob
 bob = DiffieHellman(p, g)
 bob_pub = bob.get_public_value()
-print(f"Bob's public value (g^a mod p): {bob_pub}")
+print(f"Bob's public value (g^b mod p): {bob_pub}")
 
 # Sign and serialize DH public value
 bob_serialized = bob.serialize_public_value()
 bob_signature = bob.sign_public()
 
-print("\n=== Bob's DH public value (base64) ===")
-print(f"\n{base64.b64encode(bob_serialized).decode('ascii')}")
-print("\n=== Bob's signature (base64) ===")
-print(f"\n{base64.b64encode(bob_signature).decode('ascii')}")
+print(f"\nBob's DH public value (hex):\n{bob_serialized.hex()}")
+print(f"\nBob's signature (hex):\n{bob_signature.hex()}")
 
 # Print Bob's RSA public key in hex for Alice to use
 bob_rsa_pub_bytes = bob.signature.public_key.public_bytes(
     encoding=serialization.Encoding.DER,
     format=serialization.PublicFormat.SubjectPublicKeyInfo
 )
-
-print("\n=== Bob's RSA public key (base64) ===")
-print(f"\n{base64.b64encode(bob_rsa_pub_bytes).decode('ascii')}")
+print(f"\nBob's RSA public key (hex):\n{bob_rsa_pub_bytes.hex()}")
 
 # Receive Alice's DH serialized value, signature, and RSA public key
-alice_serialized_b64 = input("\nPaste Alice's DH public value (base64): ")
-alice_signature_b64 = input("\nPaste Alice's signature (base64): ")
-alice_rsa_pub_b64 = input("\nPaste Alice's RSA public key (base64): ")
+alice_serialized_hex = input("\nPaste Alice's DH public value (hex): ")
+alice_signature_hex = input("Paste Alice's signature (hex): ")
+alice_rsa_pub_hex = input("Paste Alice's RSA public key (hex): ")
 
-alice_serialized = base64.b64decode(alice_serialized_b64)
-alice_signature = base64.b64decode(alice_signature_b64)
-alice_rsa_pub_bytes = base64.b64decode(alice_rsa_pub_b64)
+alice_serialized = bytes.fromhex(alice_serialized_hex)
+alice_signature = bytes.fromhex(alice_signature_hex)
+alice_rsa_pub_bytes = bytes.fromhex(alice_rsa_pub_hex)
 
 # Deserialize Alice's DH and RSA keys
 alice_pub_key = bob.deserialize_public_value(alice_serialized)

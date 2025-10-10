@@ -5,7 +5,6 @@
 
 from DiffieHellman import DiffieHellman
 from cryptography.hazmat.primitives import serialization
-import base64
 
 # Create Alice
 alice = DiffieHellman()
@@ -22,28 +21,25 @@ print(f"Alice's public value (g^a mod p): {alice_pub}")
 alice_serialized = alice.serialize_public_value()
 alice_signature = alice.sign_public()
 
-print("\n=== Alice's DH public value (base64) ===")
-print(f"\n{base64.b64encode(alice_serialized).decode('ascii')}")
-print("\n=== Alice's signature (base64) ===")
-print(f"\n{base64.b64encode(alice_signature).decode('ascii')}")
+print(f"\nAlice's DH public value (hex):\n{alice_serialized.hex()}")
+print(f"\nAlice's signature (hex):\n{alice_signature.hex()}")
 
-# Print Alice's RSA public key in base 64 for Bob to use
+# Print Alice's RSA public key in hex for Bob to use
 alice_rsa_pub_bytes = alice.signature.public_key.public_bytes(
     encoding=serialization.Encoding.DER,
     format=serialization.PublicFormat.SubjectPublicKeyInfo
 )
+print(f"\nAlice's RSA public key (hex):\n{alice_rsa_pub_bytes.hex()}")
 
-print("\n=== Alice's RSA public key (base64) ===")
-print(f"\n{base64.b64encode(alice_rsa_pub_bytes).decode('ascii')}")
 
 # Receive Bob's DH serialized value, signature, and RSA public key
-bob_serialized_b64 = input("\nPaste Bob's DH public value (base64): ")
-bob_signature_b64 = input("\nPaste Bob's signature (base64): ")
-bob_rsa_pub_b64 = input("\nPaste Bob's RSA public key (base64): ")
+bob_serialized_hex = input("\nPaste Bob's DH public value (hex): ")
+bob_signature_hex = input("Paste Bob's signature (hex): ")
+bob_rsa_pub_hex = input("Paste Bob's RSA public key (hex): ")
 
-bob_serialized = base64.b64decode(bob_serialized_b64)
-bob_signature = base64.b64decode(bob_signature_b64)
-bob_rsa_pub_bytes = base64.b64decode(bob_rsa_pub_b64)
+bob_serialized = bytes.fromhex(bob_serialized_hex)
+bob_signature = bytes.fromhex(bob_signature_hex)
+bob_rsa_pub_bytes = bytes.fromhex(bob_rsa_pub_hex)
 
 # Deserialize Bob's DH and RSA keys
 bob_pub_key = alice.deserialize_public_value(bob_serialized)
@@ -56,3 +52,4 @@ print(f"\nSignature verified? {verified}")
 # Compute shared secret
 shared_secret = alice.compute_shared_secret(bob_pub_key)
 print(f"\nAlice's shared secret: {shared_secret}")
+

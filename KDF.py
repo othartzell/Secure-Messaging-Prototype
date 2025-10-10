@@ -1,14 +1,14 @@
 # Owen Hartzell 801188721 ohartzel@chartlotte.edu
 # ITIS 6200 Project 1: Secure Messaging Prototype
 
-# Task 3: Encryption Key Derivation
-
 # REFERENCES
 #   Key Derivation Functions - https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/
 #   HKDF -https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/#cryptography.hazmat.primitives.kdf.hkdf.HKDF
 
 # Imports
 from cryptography.hazmat.primitives import hashes
+
+# Task 3: Encryption Key Derivation
 
 class KDF:
     # Function for key deriviation, takes in shared secret and hashing iterations

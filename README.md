@@ -5,7 +5,7 @@ General:
     Most files rely on the Cryptography library which can be installed using pip/pip3/python/python3 install cryptography
     For files in the "Tests" or "Old" directory, use the "-m" flag in terminal to run. Eg. "python3 -m Tests.TestDS"
 
-
+    This project implments secure message exchange between two parties. The tasks in this project explore the building blocks of secure messaging where authenticity, integrity, and confidentiality are all upheld. Each task implements a functionality of the overall secure message exchange, and are used in task 5 togeather to achieve a secure exchange. Below is an outline of all required tasks, the goal of the task, my python classes and functions to complete the task, and how to use the test files for each task. 
 
 Task 1: Digital Signature
     This task was to build a digital signature mechanism for Diffie-Hellman Eschange to defend against man in the middle attacks. I implemented an object oriented wrapper class called DigitalSignature with functions for key generation, hashing, signing, and verifying a signature. I used the manuals for the Cryptography library implement these functions.

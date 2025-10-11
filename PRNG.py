@@ -37,7 +37,6 @@ class PRNG:
 
         if reseed is None:
             reseed = os.urandom(32) + time.time_ns().to_bytes(8, 'big')
-
         # Combining the current state with new reseed for more randmoness
         reseed = reseed + current_bytes
 

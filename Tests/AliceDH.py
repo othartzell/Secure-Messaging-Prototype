@@ -52,4 +52,3 @@ print(f"\nSignature verified? {verified}")
 # Compute shared secret
 shared_secret = alice.compute_shared_secret(bob_pub_key)
 print(f"\nAlice's shared secret: {shared_secret}")
-

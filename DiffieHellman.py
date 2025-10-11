@@ -24,6 +24,7 @@ class DiffieHellman:
             self.p = pn.p
             self.g = pn.g
 
+        # Setting p and g if provided
         else:
             pn = dh.DHParameterNumbers(p, g)
             self.parameters = pn.parameters()

@@ -43,4 +43,3 @@ print("\nBob's derived key")
 print(bob_derived_key.hex())
 print("\nChecking if keys match")
 print(alice_derived_key == bob_derived_key)
-

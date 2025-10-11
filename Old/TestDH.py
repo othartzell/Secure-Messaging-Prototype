@@ -4,7 +4,7 @@
 # Testing the functionality of the Diffie Hellman class in a single terminal
 
 # Imports
-from DiffieHellmanOld import DiffieHellman
+from Old.DiffieHellmanOld import DiffieHellman
 from cryptography.hazmat.primitives import serialization
 import base64
 

@@ -1,4 +1,4 @@
-Owen Hartzell 801188721 ohartzel@charlotte.edu
+Owen Hartzell ohartzel@charlotte.edu
 ITIS6200 Project 1: Secure Message Exchange
 
 General:

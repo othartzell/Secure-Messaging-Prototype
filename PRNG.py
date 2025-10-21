@@ -1,4 +1,4 @@
-# Owen Hartzell 801188721 ohartzel@chartlotte.edu
+# Owen Hartzell ohartzel@chartlotte.edu
 # ITIS 6200 Project 1: Secure Messaging Prototype
 
 # REFERENCES
